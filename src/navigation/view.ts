@@ -41,4 +41,4 @@ const storeDef = {
 
 type Store = ServerState & typeof storeDef
 
-const { state } = store<Store>("kiroart-blocks-ts/navigation", storeDef)
+const { state } = store<Store>("hjarts-blocks-ts/navigation", storeDef)

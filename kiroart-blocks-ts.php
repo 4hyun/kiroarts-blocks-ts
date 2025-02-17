@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Plugin Name:       Kiroart Custom Blocks Collection with Typescript React
- * Description:       Kiroart Custom Blocks
+ * Plugin Name:       HJArts Custom Blocks Collection with Typescript React
+ * Description:       HJArts Custom Blocks
  * Version:           0.1.1
  * Requires at least: 6.7
  * Requires PHP:      7.4
@@ -25,13 +25,13 @@ if (! defined('ABSPATH')) {
  *
  * @see https://developer.wordpress.org/reference/functions/register_block_type/
  */
-function kiroart_blocks_ts_kiroart_blocks_ts_block_init()
+function hjarts_blocks_ts_hjarts_blocks_ts_block_init()
 {
 	register_block_type_from_metadata(__DIR__ . '/build/navigation');
 	register_block_type_from_metadata(__DIR__ . '/build/community-board-item');
 	register_block_type_from_metadata(__DIR__ . '/build/community-board');
 }
-add_action('init', 'kiroart_blocks_ts_kiroart_blocks_ts_block_init');
+add_action('init', 'hjarts_blocks_ts_hjarts_blocks_ts_block_init');
 
 // function kiroart_blocks_ts_enqueue_style_tw_global()
 // {

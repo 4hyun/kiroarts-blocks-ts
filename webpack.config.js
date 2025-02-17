@@ -5,7 +5,7 @@ const path = require("path")
 // defaultConfig will be an array of webpack configs
 if (Array.isArray(defaultConfig)) {
   const extendedConfigArray = defaultConfig.map((config) => {
-    config.resolve.alias["@/"] = path.resolve(__dirname)
+    config.resolve.alias["@"] = path.resolve(__dirname)
     if (typeof config.entry === "function") {
       const getEntry = config.entry
       delete config.entry

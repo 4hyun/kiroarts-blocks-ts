@@ -24,6 +24,14 @@
     --destructive-foreground: 210 40% 98%;
     --ring: 215 20.2% 65.1%;
     --radius: 0.5rem;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
   .dark {
@@ -46,6 +54,14 @@
     --destructive: 0 63% 31%;
     --destructive-foreground: 210 40% 98%;
     --ring: 216 34% 17%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
 
@@ -64,4 +80,94 @@
 
 .kiro-header-wrapper {
   z-index: 20 !important;
+}
+
+.hjarts-header {
+  &-header {
+    &__inner {
+      @media screen and (max-width: 640px) {
+        p.wp-block-site-title {
+          font-size: 1.25rem !important;
+        }
+      }
+      @media screen and (max-width: 1023px) {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+      }
+      @media screen and (min-width: 1024px) {
+        padding-left: 3rem !important;
+        padding-right: 3rem !important;
+      }
+    }
+  }
+}
+
+.hjarts-home {
+  &__banner-figure {
+    img {
+      @media screen and (max-width: 640px) {
+        height: 60vh !important;
+      }
+    }
+  }
+
+  &__portfolio-root {
+    @media screen and (max-width: 640px) {
+      row-gap: 1rem !important;
+    }
+    .wp-block-column {
+      @apply flex flex-col;
+      figure {
+        @apply flex-1;
+        img {
+          @apply h-full w-full rounded-sm cursor-pointer hover:ring-4 ring-gray-200 ring-offset-4 transition;
+        }
+      }
+      .wp-block-spacer {
+        @media screen and (max-width: 640px) {
+          @apply hidden;
+        }
+      }
+    }
+  }
+  &__announcements-content {
+    &-list {
+      h2.wp-block-post-title {
+        @apply hover:font-black;
+        a {
+          @apply no-underline;
+          @media screen and (max-width: 640px) {
+            @apply text-xl;
+          }
+        }
+      }
+    }
+  }
+  &__announcement-post {
+    &-meta {
+      color: theme("colors.stone.800") !important;
+      & * {
+        color: theme("colors.stone.800") !important;
+      }
+      &-date {
+      }
+      &-divider {
+      }
+      &-by-text {
+      }
+      &-author {
+      }
+      &-post-category {
+      }
+    }
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }

@@ -15,7 +15,7 @@ $unique_id = wp_unique_id( 'p-' );
 
 // Adds the global state.
 wp_interactivity_state(
-	'kiroart-blocks-ts/navigation',
+	'hjarts-blocks-ts/navigation',
 	array(
 		'isDark'    => false,
 		'darkText'  => esc_html__( 'Switch to Light', 'kiroart-blocks-ts' ),
@@ -25,5 +25,5 @@ wp_interactivity_state(
 );
 ?>
 
-<div class="kiroart-blocks-ts-navigation-root"></div>
+<div class="hjarts-blocks-ts-navigation-root" data-mytest="{'testdata':'thisismytest data'}"></div>
 

@@ -1,17 +1,17 @@
 {
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
-  "name": "kiroart-blocks-ts/navigation",
+  "name": "hjarts-blocks-ts/navigation",
   "version": "0.1.1",
-  "title": "Kiroart Custom Blocks Collection - Navigation",
-  "category": "design",
-  "icon": "media-interactive",
-  "description": "Kiroart Custom Blocks Collection. Navigation Component",
+  "title": "HJarts Custom Blocks Collection - Navigation",
+  "category": "theme",
+  "keywords": ["menu", "navigation", "links"],
+  "description": "HJArts collection of blocks that allow visitors to get around your site.",
   "example": {},
   "supports": {
     "interactivity": true
   },
-  "textdomain": "kiroart-blocks-ts",
+  "textdomain": "hjarts-blocks-ts",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",
   "style": ["file:./style-index.css", "file:../twGlobal.css"],
@@ -28,5 +28,6 @@
     "startingYear": {
       "type": "string"
     }
-  }
+  },
+  "icon": "menu"
 }

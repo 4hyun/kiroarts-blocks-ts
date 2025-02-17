@@ -53,9 +53,9 @@ module.exports = __WEBPACK_EXTERNAL_MODULE__wordpress_interactivity_8e89b257__;
 var __webpack_exports__ = {};
 // This entry needs to be wrapped in an IIFE because it needs to be isolated against other modules in the chunk.
 (() => {
-/*!*********************************!*\
-  !*** ./src/navigation/view.tsx ***!
-  \*********************************/
+/*!********************************!*\
+  !*** ./src/navigation/view.ts ***!
+  \********************************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/interactivity */ "@wordpress/interactivity");
 /**
@@ -89,7 +89,7 @@ const storeDef = {
 };
 const {
   state
-} = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.store)("kiroart-blocks-ts/navigation", storeDef);
+} = (0,_wordpress_interactivity__WEBPACK_IMPORTED_MODULE_0__.store)("hjarts-blocks-ts/navigation", storeDef);
 })();
 
 

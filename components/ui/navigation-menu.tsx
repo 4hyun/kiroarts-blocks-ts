@@ -5,9 +5,12 @@ import { ChevronDown } from "lucide-react"
 
 import { cn } from "../../lib/utils"
 
+type ViewportWrapperProp = { side: "right" }
 const NavigationMenu = React.forwardRef<
   React.ElementRef<typeof NavigationMenuPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Root>
+  React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Root> & {
+    viewportWrapper?: ViewportWrapperProp
+  }
 >(({ className, children, ...props }, ref) => (
   <NavigationMenuPrimitive.Root
     ref={ref}
@@ -18,7 +21,9 @@ const NavigationMenu = React.forwardRef<
     {...props}
   >
     {children}
-    <NavigationMenuViewport viewportWrapper={props.viewportWrapper || null} />
+    <NavigationMenuViewport
+      viewportWrapper={(props.viewportWrapper || null) as any}
+    />
   </NavigationMenuPrimitive.Root>
 ))
 NavigationMenu.displayName = NavigationMenuPrimitive.Root.displayName

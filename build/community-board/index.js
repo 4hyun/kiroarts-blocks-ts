@@ -864,7 +864,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var _radix_ui_react_compose_refs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @radix-ui/react-compose-refs */ "./node_modules/@radix-ui/react-compose-refs/dist/index.mjs");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-// packages/react/slot/src/Slot.tsx
+// packages/react/slot/src/slot.tsx
 
 
 
@@ -891,11 +891,11 @@ var SlotClone = react__WEBPACK_IMPORTED_MODULE_0__.forwardRef((props, forwardedR
   const { children, ...slotProps } = props;
   if (react__WEBPACK_IMPORTED_MODULE_0__.isValidElement(children)) {
     const childrenRef = getElementRef(children);
-    return react__WEBPACK_IMPORTED_MODULE_0__.cloneElement(children, {
-      ...mergeProps(slotProps, children.props),
-      // @ts-ignore
-      ref: forwardedRef ? (0,_radix_ui_react_compose_refs__WEBPACK_IMPORTED_MODULE_2__.composeRefs)(forwardedRef, childrenRef) : childrenRef
-    });
+    const props2 = mergeProps(slotProps, children.props);
+    if (children.type !== react__WEBPACK_IMPORTED_MODULE_0__.Fragment) {
+      props2.ref = forwardedRef ? (0,_radix_ui_react_compose_refs__WEBPACK_IMPORTED_MODULE_2__.composeRefs)(forwardedRef, childrenRef) : childrenRef;
+    }
+    return react__WEBPACK_IMPORTED_MODULE_0__.cloneElement(children, props2);
   }
   return react__WEBPACK_IMPORTED_MODULE_0__.Children.count(children) > 1 ? react__WEBPACK_IMPORTED_MODULE_0__.Children.only(null) : null;
 });
