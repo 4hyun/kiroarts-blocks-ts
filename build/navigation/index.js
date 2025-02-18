@@ -1546,6 +1546,36 @@ function NavigationMobileSidebar({
 
 /***/ }),
 
+/***/ "./src/navigation/constants/PRELOAD_NAVIGATION_MENUS_QUERY.ts":
+/*!********************************************************************!*\
+  !*** ./src/navigation/constants/PRELOAD_NAVIGATION_MENUS_QUERY.ts ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   PRELOADED_NAVIGATION_MENUS_QUERY: () => (/* binding */ PRELOADED_NAVIGATION_MENUS_QUERY)
+/* harmony export */ });
+/**
+ *
+ * This is source:
+ *
+ * @see https://github1s.com/WordPress/gutenberg/blob/trunk/packages/edit-site/src/components/sidebar-navigation-screen-navigation-menus/constants.js
+ *
+ * This is where it is used:
+ *
+ * @see https://github1s.com/WordPress/gutenberg/blob/trunk/packages/block-library/src/navigation/use-navigation-menu.js#L54
+ */
+
+const PRELOADED_NAVIGATION_MENUS_QUERY = {
+  per_page: 100,
+  status: ["publish", "draft"],
+  order: "desc",
+  orderby: "date"
+};
+
+/***/ }),
+
 /***/ "./src/navigation/constants/menu-data.ts":
 /*!***********************************************!*\
   !*** ./src/navigation/constants/menu-data.ts ***!
@@ -1574,15 +1604,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _wordpress_icons__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @wordpress/icons */ "./node_modules/@wordpress/icons/build-module/library/more-vertical.js");
-/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
-/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _wordpress_block_library_src_navigation_use_navigation_menu__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/block-library/src/navigation/use-navigation-menu */ "@wordpress/block-library/src/navigation/use-navigation-menu");
-/* harmony import */ var _wordpress_block_library_src_navigation_use_navigation_menu__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_library_src_navigation_use_navigation_menu__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _lib__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./lib */ "./src/navigation/lib.ts");
-/* harmony import */ var _Navigation__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Navigation */ "./src/navigation/Navigation.tsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _wordpress_icons__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @wordpress/icons */ "./node_modules/@wordpress/icons/build-module/library/more-vertical.js");
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
+/* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _hooks_use_navigation_menu__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./hooks/use-navigation-menu */ "./src/navigation/hooks/use-navigation-menu.ts");
+/* harmony import */ var _lib__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./lib */ "./src/navigation/lib.ts");
+/* harmony import */ var _Navigation__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Navigation */ "./src/navigation/Navigation.tsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__);
 /**
  * Retrieves the translation of text.
  *
@@ -1597,7 +1628,7 @@ __webpack_require__.r(__webpack_exports__);
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
 
-// import { useMemo, useState } from "@wordpress/element"
+
 
 
 
@@ -1627,79 +1658,71 @@ function Edit({
   const menuInspectorControls = {
     currentMenuId: null
   };
-  const showNavigationMenus = false;
   const hasNavigationMenus = true;
   // This will be props for Navigation Menu Selector
   const navigationMenuSelector = {
     actionLabel: undefined
   };
   const actionLabel = navigationMenuSelector.actionLabel || createActionLabel;
-  const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.useBlockProps)();
-  // const [isUpdatingMenuRef, setIsUpdatingMenuRef] = useState(false)
-  const canUserCreateNavigationMenus = true;
+  const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.useBlockProps)();
+  const [isUpdatingMenuRef, setIsUpdatingMenuRef] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)(false);
+  const {
+    navigationMenus,
+    isResolvingNavigationMenus,
+    hasResolvedNavigationMenus,
+    canUserCreateNavigationMenus,
+    canSwitchNavigationMenu,
+    isNavigationMenuMissing
+  } = (0,_hooks_use_navigation_menu__WEBPACK_IMPORTED_MODULE_4__.useNavigationMenu)(menuInspectorControls.currentMenuId);
+  const showNavigationMenus = !!canSwitchNavigationMenu;
 
-  // const {
-  //   navigationMenus,
-  //   isResolvingNavigationMenus,
-  //   hasResolvedNavigationMenus,
-  //   canUserCreateNavigationMenus,
-  //   canSwitchNavigationMenu,
-  //   isNavigationMenuMissing,
-  // } = useNavigationMenu(menuInspectorControls.currentMenuId)
+  // console.log({ navigationMenus })
 
-  // const menuChoices = useMemo(() => {
-  //   return (
-  //     navigationMenus?.map(({ id, title, status }, index) => {
-  //       const label = buildMenuLabel(title?.rendered, index + 1, status)
-
-  //       return {
-  //         value: id,
-  //         label,
-  //         ariaLabel: sprintf(actionLabel, label),
-  //         disabled:
-  //           isUpdatingMenuRef ||
-  //           isResolvingNavigationMenus ||
-  //           !hasResolvedNavigationMenus,
-  //       }
-  //     }) || []
-  //   )
-  // }, [
-  //   navigationMenus,
-  //   actionLabel,
-  //   isResolvingNavigationMenus,
-  //   hasResolvedNavigationMenus,
-  //   isUpdatingMenuRef,
-  // ])
-
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.Fragment, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_2__.InspectorControls, {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.PanelBody, {
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+  const menuChoices = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useMemo)(() => {
+    return navigationMenus?.map(({
+      id,
+      title,
+      status
+    }, index) => {
+      const label = (0,_lib__WEBPACK_IMPORTED_MODULE_5__.buildMenuLabel)(title?.rendered, index + 1, status);
+      return {
+        value: id,
+        label,
+        ariaLabel: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.sprintf)(actionLabel, label),
+        disabled: isUpdatingMenuRef || isResolvingNavigationMenus || !hasResolvedNavigationMenus
+      };
+    }) || [];
+  }, [navigationMenus, actionLabel, isResolvingNavigationMenus, hasResolvedNavigationMenus, isUpdatingMenuRef]);
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("nav", {
+    ...blockProps,
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_3__.InspectorControls, {
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.PanelBody, {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
           className: "flex items-center justify-between",
-          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+          children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
             className: "font-semibold",
             children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Menu")
-          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.DropdownMenu, {
-            icon: _wordpress_icons__WEBPACK_IMPORTED_MODULE_7__["default"],
+          }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.DropdownMenu, {
+            icon: _wordpress_icons__WEBPACK_IMPORTED_MODULE_8__["default"],
             toggleProps: {
               size: "small"
             },
             children: ({
               onClose
-            }) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.Fragment, {
-              children: [showNavigationMenus && hasNavigationMenus && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.MenuGroup, {
+            }) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.Fragment, {
+              children: [showNavigationMenus && hasNavigationMenus && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.MenuGroup, {
                 label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Menus"),
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.MenuItemsChoice, {
-                  value: currentMenuId,
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.MenuItemsChoice, {
+                  value: menuInspectorControls.currentMenuId,
                   onSelect: menuId => {
                     // onSelectNavigationMenu( menuId );
                     // onClose()
                   },
                   choices: menuChoices
                 })
-              }), canUserCreateNavigationMenus ||  true && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.MenuGroup, {
+              }), canUserCreateNavigationMenus ||  true && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.MenuGroup, {
                 label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)("Tools"),
-                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.MenuItem, {
+                children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_1__.MenuItem, {
                   onClick: async () => {
                     // setIsUpdatingMenuRef( true );
                     // await onCreateNew();
@@ -1719,9 +1742,41 @@ function Edit({
           })]
         })
       })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_Navigation__WEBPACK_IMPORTED_MODULE_5__.Navigation, {})]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_Navigation__WEBPACK_IMPORTED_MODULE_6__.Navigation, {})]
   });
 }
+
+/***/ }),
+
+/***/ "./src/navigation/hooks/use-navigation-menu.ts":
+/*!*****************************************************!*\
+  !*** ./src/navigation/hooks/use-navigation-menu.ts ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   useNavigationMenu: () => (/* binding */ useNavigationMenu)
+/* harmony export */ });
+/* harmony import */ var _wordpress_core_data__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/core-data */ "@wordpress/core-data");
+/* harmony import */ var _wordpress_core_data__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_core_data__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _constants_PRELOAD_NAVIGATION_MENUS_QUERY__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../constants/PRELOAD_NAVIGATION_MENUS_QUERY */ "./src/navigation/constants/PRELOAD_NAVIGATION_MENUS_QUERY.ts");
+
+
+const useNavigationMenu = ref => {
+  const {
+    records: navigationMenus,
+    isResolving: isResolvingNavigationMenus,
+    hasResolved: hasResolvedNavigationMenus
+  } = (0,_wordpress_core_data__WEBPACK_IMPORTED_MODULE_0__.useEntityRecords)("postType", `wp_navigation`, _constants_PRELOAD_NAVIGATION_MENUS_QUERY__WEBPACK_IMPORTED_MODULE_1__.PRELOADED_NAVIGATION_MENUS_QUERY);
+  const canSwitchNavigationMenu = ref ? navigationMenus?.length > 1 : navigationMenus?.length > 0;
+  return {
+    navigationMenus,
+    canSwitchNavigationMenu,
+    isResolvingNavigationMenus,
+    hasResolvedNavigationMenus
+  };
+};
 
 /***/ }),
 
@@ -2946,16 +3001,6 @@ module.exports = window["wp"]["blockEditor"];
 
 /***/ }),
 
-/***/ "@wordpress/block-library/src/navigation/use-navigation-menu":
-/*!***********************************************************************!*\
-  !*** external ["wp","blockLibrary/src/navigation/useNavigationMenu"] ***!
-  \***********************************************************************/
-/***/ ((module) => {
-
-module.exports = window["wp"]["blockLibrary/src/navigation/useNavigationMenu"];
-
-/***/ }),
-
 /***/ "@wordpress/blocks":
 /*!********************************!*\
   !*** external ["wp","blocks"] ***!
@@ -2973,6 +3018,26 @@ module.exports = window["wp"]["blocks"];
 /***/ ((module) => {
 
 module.exports = window["wp"]["components"];
+
+/***/ }),
+
+/***/ "@wordpress/core-data":
+/*!**********************************!*\
+  !*** external ["wp","coreData"] ***!
+  \**********************************/
+/***/ ((module) => {
+
+module.exports = window["wp"]["coreData"];
+
+/***/ }),
+
+/***/ "@wordpress/element":
+/*!*********************************!*\
+  !*** external ["wp","element"] ***!
+  \*********************************/
+/***/ ((module) => {
+
+module.exports = window["wp"]["element"];
 
 /***/ }),
 

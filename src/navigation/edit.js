@@ -18,10 +18,10 @@ import {
   MenuItemsChoice,
   DropdownMenu,
 } from "@wordpress/components"
-// import { useMemo, useState } from "@wordpress/element"
+import { useMemo, useState } from "@wordpress/element"
 import { moreVertical } from "@wordpress/icons"
 import { InspectorControls, useBlockProps } from "@wordpress/block-editor"
-import useNavigationMenu from "@wordpress/block-library/src/navigation/use-navigation-menu"
+import { useNavigationMenu } from "./hooks/use-navigation-menu"
 import { buildMenuLabel } from "./lib"
 
 /**
@@ -44,7 +44,6 @@ export default function Edit({ attributes, setAttributes }) {
   const createActionLabel = __("Create from '%s'")
   // This will be props for MenuInspectorControls once extrated to its own component
   const menuInspectorControls = { currentMenuId: null }
-  const showNavigationMenus = false
   const hasNavigationMenus = true
   // This will be props for Navigation Menu Selector
   const navigationMenuSelector = {
@@ -53,44 +52,45 @@ export default function Edit({ attributes, setAttributes }) {
   const actionLabel = navigationMenuSelector.actionLabel || createActionLabel
 
   const blockProps = useBlockProps()
-  // const [isUpdatingMenuRef, setIsUpdatingMenuRef] = useState(false)
-  const canUserCreateNavigationMenus = true
+  const [isUpdatingMenuRef, setIsUpdatingMenuRef] = useState(false)
+  const {
+    navigationMenus,
+    isResolvingNavigationMenus,
+    hasResolvedNavigationMenus,
+    canUserCreateNavigationMenus,
+    canSwitchNavigationMenu,
+    isNavigationMenuMissing,
+  } = useNavigationMenu(menuInspectorControls.currentMenuId)
+  const showNavigationMenus = !!canSwitchNavigationMenu
 
-  // const {
-  //   navigationMenus,
-  //   isResolvingNavigationMenus,
-  //   hasResolvedNavigationMenus,
-  //   canUserCreateNavigationMenus,
-  //   canSwitchNavigationMenu,
-  //   isNavigationMenuMissing,
-  // } = useNavigationMenu(menuInspectorControls.currentMenuId)
+  // console.log({ navigationMenus })
 
-  // const menuChoices = useMemo(() => {
-  //   return (
-  //     navigationMenus?.map(({ id, title, status }, index) => {
-  //       const label = buildMenuLabel(title?.rendered, index + 1, status)
+  const menuChoices = useMemo(() => {
+    return (
+      navigationMenus?.map(({ id, title, status }, index) => {
+        const label = buildMenuLabel(title?.rendered, index + 1, status)
 
-  //       return {
-  //         value: id,
-  //         label,
-  //         ariaLabel: sprintf(actionLabel, label),
-  //         disabled:
-  //           isUpdatingMenuRef ||
-  //           isResolvingNavigationMenus ||
-  //           !hasResolvedNavigationMenus,
-  //       }
-  //     }) || []
-  //   )
-  // }, [
-  //   navigationMenus,
-  //   actionLabel,
-  //   isResolvingNavigationMenus,
-  //   hasResolvedNavigationMenus,
-  //   isUpdatingMenuRef,
-  // ])
+        return {
+          value: id,
+          label,
+          ariaLabel: sprintf(actionLabel, label),
+          disabled:
+            isUpdatingMenuRef ||
+            isResolvingNavigationMenus ||
+            !hasResolvedNavigationMenus,
+        }
+      }) || []
+    )
+  }, [
+    navigationMenus,
+    actionLabel,
+    isResolvingNavigationMenus,
+    hasResolvedNavigationMenus,
+    isUpdatingMenuRef,
+  ])
 
   return (
-    <>
+    <nav {...blockProps}>
       <InspectorControls>
         <PanelBody>
           <div className="flex items-center justify-between">
@@ -101,7 +101,7 @@ export default function Edit({ attributes, setAttributes }) {
                   {showNavigationMenus && hasNavigationMenus && (
                     <MenuGroup label={__("Menus")}>
                       <MenuItemsChoice
-                        value={currentMenuId}
+                        value={menuInspectorControls.currentMenuId}
                         onSelect={(menuId) => {
                           // onSelectNavigationMenu( menuId );
                           // onClose()
@@ -137,6 +137,6 @@ export default function Edit({ attributes, setAttributes }) {
         </PanelBody>
       </InspectorControls>
       <Navigation></Navigation>
-    </>
+    </nav>
   )
 }
