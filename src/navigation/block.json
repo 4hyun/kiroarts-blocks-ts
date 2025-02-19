@@ -17,8 +17,9 @@
   "style": ["file:./style-index.css", "file:../twGlobal.css"],
   "script": "file:./block-script.js",
   "render": "file:./render.php",
-  "viewScriptModule": "file:./view.tsx",
+  "viewScriptModule": "file:./view.ts",
   "attributes": {
+    "ref": { "type": "string" },
     "fallbackCurrentYear": {
       "type": "string"
     },

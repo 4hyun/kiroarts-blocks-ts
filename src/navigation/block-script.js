@@ -5,6 +5,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const navigationRoot = document.querySelector(
     ".hjarts-blocks-ts-navigation-root"
   )
-  const root = ReactDom.createRoot(navigationRoot)
-  root.render(<Navigation />)
+  if (navigationRoot) {
+    const root = ReactDom.createRoot(navigationRoot)
+    const refValue = navigationRoot.getAttribute("data-ref")
+    root.render(<Navigation attributes={{ ref: refValue }} />)
+  }
 })

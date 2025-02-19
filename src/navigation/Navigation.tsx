@@ -9,12 +9,14 @@ import {
   // NavigationMenuViewport,
   // navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
+import { useSelect } from "@wordpress/data"
+import { useEffect } from "@wordpress/element"
 import { NavigationContentListItem } from "@/components/ui/navigation-menu-content-list-item"
 import { NavigationMobileSidebar } from "./NavigationMobileSidebar"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { getHref } from "@/lib/menu/v1/utils"
 import { MenuIcon } from "lucide-react"
-import { menuData } from "./constants/menu-data"
+import { menuData, menuDataStructured } from "./constants/menu-data"
 
 // type MenuItem = {}
 // type MenuLabel = string
@@ -23,7 +25,13 @@ import { menuData } from "./constants/menu-data"
 // type MenuProps = []
 // const createMenuItem = (props: MenuItem) => props
 
-export const Navigation = () => {
+export const Navigation = ({ clientId, attributes, setAttributes }) => {
+  useEffect(() => {
+    if (!attributes.ref) return
+  }, [attributes.ref])
+
+  if (!attributes.ref) return null
+
   return (
     <div className="hjarts-navigation-group">
       {/* Desktop */}

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PHP file to use when rendering the block type on the server to show on the front end.
  *
@@ -11,19 +12,19 @@
  */
 
 // Generates a unique id for aria-controls.
-$unique_id = wp_unique_id( 'p-' );
+$unique_id = wp_unique_id('p-');
 
 // Adds the global state.
 wp_interactivity_state(
 	'hjarts-blocks-ts/navigation',
 	array(
 		'isDark'    => false,
-		'darkText'  => esc_html__( 'Switch to Light', 'kiroart-blocks-ts' ),
-		'lightText' => esc_html__( 'Switch to Dark', 'kiroart-blocks-ts' ),
-		'themeText'	=> esc_html__( 'Switch to Dark', 'kiroart-blocks-ts' ),
+		'darkText'  => esc_html__('Switch to Light', 'kiroart-blocks-ts'),
+		'lightText' => esc_html__('Switch to Dark', 'kiroart-blocks-ts'),
 	)
 );
+
+$ref = isset($attributes['ref']) ? esc_attr($attributes['ref']) : '';
 ?>
 
-<div class="hjarts-blocks-ts-navigation-root" data-mytest="{'testdata':'thisismytest data'}"></div>
-
+<div class="hjarts-blocks-ts-navigation-root" data-mytest="{'testdata':'thisismytest data'}" data-ref="<?php echo $ref ?>"></div>
