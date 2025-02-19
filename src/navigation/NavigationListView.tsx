@@ -18,8 +18,15 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
-import { ChevronRight, Plus, MoreVertical } from "lucide-react"
+import { ChevronRight, Plus, MoreVertical, Trash } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu"
 
 const NavigationItemInserter = () => {
   const addLabel = __("Add")
@@ -34,6 +41,35 @@ const NavigationItemInserter = () => {
         {/* </SidebarMenuButton> */}
       </div>
     </SidebarFooter>
+  )
+}
+
+const MenuItemDropdownMenu = () => {
+  // const removeLabel = sprintf(
+  // 	/* translators: %s: block name */
+  // 	__( 'Remove %s' ),
+  // 	BlockTitle( { clientId, maximumLength: 25 } )
+  // );
+  return (
+    <div
+      onClick={(e) => e.stopPropagation()}
+      onSelect={(e) => e.stopPropagation()}
+    >
+      <DropdownMenu>
+        <DropdownMenuTrigger>
+          <MoreVertical size={16} />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent className="*:cursor-pointer">
+          <DropdownMenuItem>{__("Move up")}</DropdownMenuItem>
+          <DropdownMenuItem>{__("Move down")}</DropdownMenuItem>
+          <DropdownMenuSeparator></DropdownMenuSeparator>
+          <DropdownMenuItem>
+            <Trash size={10} />
+            {__("Remove")}
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
   )
 }
 
@@ -57,7 +93,7 @@ export const NavigationListView = (props) => {
                           <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90 w-4 h-4" />
                           <span className="whitespace-pre">menu 1</span>
                         </div>
-                        <MoreVertical />
+                        <MenuItemDropdownMenu />
                       </SidebarMenuButton>
                     </CollapsibleTrigger>
                     <CollapsibleContent>
