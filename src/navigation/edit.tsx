@@ -33,57 +33,8 @@ import { DeletedNavigationWarning } from "./edit/deleted-navigation-warning"
 import { Navigation } from "./Navigation"
 import { NavigationListView } from "./NavigationListView"
 import { NavigationContentLeafMoreMenu } from "./NavigationContentLeafMoreMenu"
-
-const MainContent = ({
-  clientId,
-  currentMenuId,
-  isLoading,
-  isNavigationMenuMissing,
-  onCreateNew,
-}) => {
-  const hasChildren = useSelect(
-    (select) => {
-      return !!select(blockEditorStore).getBlockCount(clientId)
-    },
-    [clientId]
-  )
-
-  const { navigationMenu } = useNavigationMenu(currentMenuId)
-
-  if (currentMenuId && isNavigationMenuMissing) {
-    return <DeletedNavigationWarning onCreateNew={onCreateNew} isNotice />
-  }
-
-  if (isLoading) {
-    return <Spinner />
-  }
-
-  const description = navigationMenu
-    ? sprintf(
-        /* translators: %s: The name of a menu. */
-        __("Structure for Navigation Menu: %s"),
-        navigationMenu?.title || __("Untitled menu")
-      )
-    : __("You have not yet created any menus. Displaying a list of your Pages")
-
-  return (
-    <div className="wp-block-navigation__menu-inspector-controls">
-      {!hasChildren && (
-        <p className="wp-block-navigation__menu-inspector-controls__empty-message">
-          {__("This Navigation Menu is empty.")}
-        </p>
-      )}
-      <NavigationListView
-        rootClientId={clientId}
-        isExpanded
-        description={description}
-        showAppender
-        blockSettingsMenu={NavigationContentLeafMoreMenu}
-        // additionalBlockContent={AdditionalBlockContent}
-      />
-    </div>
-  )
-}
+import { NavigationContextProvider } from "./context"
+import { NavigationInspectorControls } from "./edit/NavigationInspectorControls"
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -98,7 +49,6 @@ const MainContent = ({
  * @return {Element} Element to render.
  */
 export default function Edit({ attributes, setAttributes, ...props }) {
-  console.log({ props })
   const createActionLabel = __("Create from '%s'")
   // This will be props for MenuInspectorControls once extrated to its own component
   const ref = attributes.ref || props.clientId
@@ -184,57 +134,14 @@ export default function Edit({ attributes, setAttributes, ...props }) {
 
   return (
     <nav {...blockProps}>
-      <InspectorControls className="px-0">
-        <PanelBody>
-          <div className="flex items-center justify-between">
-            <div className="font-semibold">{__("Menu")}</div>
-            <DropdownMenu icon={moreVertical} toggleProps={{ size: "small" }}>
-              {({ onClose }) => (
-                <>
-                  {showNavigationMenus && hasNavigationMenus && (
-                    <MenuGroup label={__("Menus")}>
-                      <MenuItemsChoice
-                        value={ref}
-                        onSelect={(menuId) => {
-                          onSelectNavigationMenu(menuId)
-                          onClose()
-                        }}
-                        choices={menuChoices}
-                      />
-                    </MenuGroup>
-                  )}
-                  {canUserCreateNavigationMenus ||
-                    (true && (
-                      <MenuGroup label={__("Tools")}>
-                        <MenuItem
-                          onClick={async () => {
-                            // setIsUpdatingMenuRef( true );
-                            // await onCreateNew();
-                            // setIsUpdatingMenuRef( false );
-                            onClose()
-                          }}
-                          // disabled={
-                          // 	isUpdatingMenuRef ||
-                          // 	isResolvingNavigationMenus ||
-                          // 	! hasResolvedNavigationMenus
-                          // }
-                        >
-                          {__("Create new Menu")}
-                        </MenuItem>
-                      </MenuGroup>
-                    ))}
-                </>
-              )}
-            </DropdownMenu>
-          </div>
-          <MainContent />
-        </PanelBody>
-      </InspectorControls>
-      <Navigation
-        clientId={ref}
-        setAttributes={setAttributes}
-        attributes={attributes}
-      ></Navigation>
+      <NavigationContextProvider>
+        <NavigationInspectorControls />
+        <Navigation
+          clientId={ref}
+          setAttributes={setAttributes}
+          attributes={attributes}
+        ></Navigation>
+      </NavigationContextProvider>
     </nav>
   )
 }

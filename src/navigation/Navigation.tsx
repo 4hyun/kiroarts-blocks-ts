@@ -45,8 +45,6 @@ export const Navigation = ({ clientId, attributes, setAttributes }) => {
     [attributes]
   )
 
-  console.log({ navigationData })
-
   if (!attributes.ref) {
     console.log(
       "[WARN] [hjarts:navigation] <Navigation/> requires attributes.ref to render. See $attributes @ https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#attributes"
