@@ -9,14 +9,18 @@ import {
   // NavigationMenuViewport,
   // navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
+import { store as coreStore } from "@wordpress/core-data"
 import { useSelect } from "@wordpress/data"
-import { useEffect } from "@wordpress/element"
+import { useEffect, useState } from "@wordpress/element"
 import { NavigationContentListItem } from "@/components/ui/navigation-menu-content-list-item"
 import { NavigationMobileSidebar } from "./NavigationMobileSidebar"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { getHref } from "@/lib/menu/v1/utils"
 import { MenuIcon } from "lucide-react"
-import { menuData, menuDataStructured } from "./constants/menu-data"
+import {
+  menuData as menuDataSample,
+  menuDataStructured,
+} from "./constants/menu-data"
 
 // type MenuItem = {}
 // type MenuLabel = string
@@ -26,11 +30,36 @@ import { menuData, menuDataStructured } from "./constants/menu-data"
 // const createMenuItem = (props: MenuItem) => props
 
 export const Navigation = ({ clientId, attributes, setAttributes }) => {
-  useEffect(() => {
-    if (!attributes.ref) return
-  }, [attributes.ref])
+  const [menuData, setMenuData] = useState(null)
+  const { navigationData, isResolvingNavigationData } = useSelect(
+    (select) => {
+      if (!attributes?.ref) return {}
+      const { getEntityRecord, isResolving } = select(coreStore)
+      const navigationData = getEntityRecord(
+        "postType",
+        "hjarts_navigation",
+        attributes.ref
+      )
+      return { navigationData, isResolvingNavigationData: isResolving }
+    },
+    [attributes]
+  )
 
-  if (!attributes.ref) return null
+  console.log({ navigationData })
+
+  if (!attributes.ref) {
+    console.log(
+      "[WARN] [hjarts:navigation] <Navigation/> requires attributes.ref to render. See $attributes @ https://developer.wordpress.org/block-editor/reference-guides/block-api/block-edit-save/#attributes"
+    )
+    return null
+  }
+
+  if (!menuData) {
+    // no navigation to render without data.
+    return (
+      <div className="hjarts-navigation-group">HJARTS - No Navigation Menu</div>
+    )
+  }
 
   return (
     <div className="hjarts-navigation-group">
