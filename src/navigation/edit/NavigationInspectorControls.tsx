@@ -1,26 +1,17 @@
 import { __, sprintf } from "@wordpress/i18n"
-import {
-  PanelBody,
-  MenuGroup,
-  MenuItem,
-  MenuItemsChoice,
-  Spinner,
-} from "@wordpress/components"
-import { moreVertical } from "@wordpress/icons"
-import {
-  InspectorControls,
-  useBlockProps,
-  store as blockEditorStore,
-} from "@wordpress/block-editor"
+import { PanelBody, Spinner } from "@wordpress/components"
+import { InspectorControls } from "@wordpress/block-editor"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import DeletedNavigationWarning from "./deleted-navigation-warning"
 import { NavigationListView } from "../NavigationListView"
+import { MoreVertical } from "lucide-react"
 
 const MainContent = ({
   clientId,
@@ -42,7 +33,7 @@ const MainContent = ({
     return <DeletedNavigationWarning onCreateNew={onCreateNew} isNotice />
   }
 
-  if (isLoading || true) {
+  if (isLoading) {
     return <Spinner />
   }
   const description = ""
@@ -56,15 +47,14 @@ const MainContent = ({
 
   return (
     <div className="wp-block-navigation__menu-inspector-controls">
-      =
       <p className="wp-block-navigation__menu-inspector-controls__empty-message">
         {__("This Navigation Menu is empty.")}
       </p>
       <NavigationListView
         rootClientId={clientId}
-        isExpanded
+        // isExpanded
         description={description}
-        showAppender
+        // showAppender
         // blockSettingsMenu={NavigationContentLeafMoreMenu}
         // additionalBlockContent={AdditionalBlockContent}
       />
@@ -84,6 +74,9 @@ export const NavigationInspectorControls = () => {
         >
           <div className="font-semibold">{__("Menu")}</div>
           <DropdownMenu>
+            <DropdownMenuTrigger>
+              <MoreVertical size={10}></MoreVertical>
+            </DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuLabel>{__("Menus")}</DropdownMenuLabel>
               {/* <MenuItemsChoice

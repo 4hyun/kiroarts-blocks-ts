@@ -73,8 +73,13 @@ const MenuItemDropdownMenu = () => {
   )
 }
 
-export const NavigationListView = (props) => {
-  console.log("NavigationListView", { props })
+export const NavigationListView = ({ menuData, ...props }) => {
+  if (!menuData)
+    return (
+      <div className="hjarts-navigation-list-view">
+        {__("There is no menu data.")}
+      </div>
+    )
   return (
     <SidebarProvider
       // style={{ "--sidebar-width": "unset" }}

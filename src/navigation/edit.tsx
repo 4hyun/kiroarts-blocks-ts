@@ -1,38 +1,14 @@
-/**
- * Retrieves the translation of text.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-i18n/
- */
 import { __, sprintf } from "@wordpress/i18n"
-
-/**
- * React hook that is used to mark the block wrapper element.
- * It provides all the necessary props like the class name.
- *
- * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
- */
-import {
-  PanelBody,
-  MenuGroup,
-  MenuItem,
-  MenuItemsChoice,
-  DropdownMenu,
-} from "@wordpress/components"
 import { useMemo, useState, useCallback, useEffect } from "@wordpress/element"
 import { useSelect, useDispatch } from "@wordpress/data"
-import { moreVertical } from "@wordpress/icons"
 import {
-  InspectorControls,
   useBlockProps,
   store as blockEditorStore,
 } from "@wordpress/block-editor"
 import { useNavigationMenu } from "./hooks/use-navigation-menu"
 import { buildMenuLabel } from "./lib"
-import { DeletedNavigationWarning } from "./edit/deleted-navigation-warning"
 
 import { Navigation } from "./Navigation"
-import { NavigationListView } from "./NavigationListView"
-import { NavigationContentLeafMoreMenu } from "./NavigationContentLeafMoreMenu"
 import { NavigationContextProvider } from "./context"
 import { NavigationInspectorControls } from "./edit/NavigationInspectorControls"
 
@@ -51,7 +27,10 @@ import { NavigationInspectorControls } from "./edit/NavigationInspectorControls"
 export default function Edit({ attributes, setAttributes, ...props }) {
   const createActionLabel = __("Create from '%s'")
   // This will be props for MenuInspectorControls once extrated to its own component
-  const ref = attributes.ref || props.clientId
+  const ref = useMemo(
+    () => attributes.ref || props.clientId,
+    [attributes.ref, props.clientId]
+  )
 
   const hasNavigationMenus = true
   // This will be props for Navigation Menu Selector
@@ -103,34 +82,6 @@ export default function Edit({ attributes, setAttributes, ...props }) {
     hasResolvedNavigationMenus,
     isUpdatingMenuRef,
   ])
-
-  const setRef = useCallback(
-    (postId) => {
-      setAttributes({ ref: postId })
-    },
-    [setAttributes]
-  )
-
-  const {
-    replaceInnerBlocks,
-    selectBlock,
-    __unstableMarkNextChangeAsNotPersistent,
-  } = useDispatch(blockEditorStore)
-
-  const handleUpdateMenu = useCallback(
-    (menuId, options = { focusNavigationBlock: false }) => {
-      const { focusNavigationBlock } = options
-      setRef(menuId)
-      if (focusNavigationBlock) {
-        selectBlock(blockProps.id)
-      }
-    },
-    [selectBlock, blockProps.id, setRef]
-  )
-
-  const onSelectNavigationMenu = (menuId) => {
-    handleUpdateMenu(menuId)
-  }
 
   return (
     <nav {...blockProps}>
