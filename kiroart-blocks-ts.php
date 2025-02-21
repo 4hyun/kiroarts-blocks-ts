@@ -27,20 +27,43 @@ if (! defined('ABSPATH')) {
  */
 function hjarts_blocks_ts_hjarts_blocks_ts_block_init()
 {
+	error_log('register_hjarts_navigation_cpt() is executing. 111');
 	register_block_type_from_metadata(__DIR__ . '/build/navigation');
 	register_block_type_from_metadata(__DIR__ . '/build/community-board-item');
 	register_block_type_from_metadata(__DIR__ . '/build/community-board');
 }
 add_action('init', 'hjarts_blocks_ts_hjarts_blocks_ts_block_init');
 
-// function kiroart_blocks_ts_enqueue_style_tw_global()
-// {
-// 	wp_enqueue_style('kiroart-blocks-ts-tw-global', __DIR__ . '/build/pluginTwGlobalImportModule.css');
-// }
-// add_action('wp_enqueue_scripts', 'kiroart_blocks_ts_enqueue_style_tw_global');
-// function kiroart_blocks_ts_add_editor_style_tw_global()
-// {
-// 	add_editor_style(__DIR__ . '/build/pluginTwGlobalImportModule.css');
-// }
+function register_hjarts_navigation_cpt()
+{
+	register_post_type('hjarts_navigation', array(
+		'labels'        => array(
+			'name'          => _x('HJArts Custom Navigations', 'hjarts custom navigation post type general name.'),
+			'singular_name' => _x('HJArts Custom Navigation', 'hjarts custom navigation post type singular name. '),
+		),
+		'public'        => true,
+		'show_in_rest'  => true, // Enables REST API support
+		'rest_controller_class' => 'WP_REST_Posts_Controller',
+		'supports'      => array('title', 'editor'),
+	));
+	register_post_meta('hjarts_navigation', 'navigation_menu_id', array('type' => 'string', 'single' => true, 'show_in_rest' => true));
+	register_post_meta('hjarts_navigation', 'navigation_menu', array('type' => 'string', 'single' => true, 'show_in_rest' => true));
+}
+add_action('init', 'register_hjarts_navigation_cpt');
 
-// add_action('after_setup_theme', 'kiroart_blocks_ts_add_editor_style_tw_global');
+// function save_hjarts_navigation_meta($post_id)
+// {
+// 	if (isset($_POST['meta']['navigation_menu'])) {
+// 		update_post_meta($post_id, 'navigation_menu', $_POST['meta']['navigation_menu']);
+// 	}
+// 	if (isset($_POST['meta']['navigation_menu_id'])) {
+// 		update_post_meta($post_id, 'navigation_menu_id', $_POST['meta']['navigation_menu_id']);
+// 	}
+// }
+// add_action('save_post_hjarts_navigation', 'save_hjarts_navigation_meta');
+
+add_action('save_post_hjarts_navigation', function ($post_id) {
+
+	error_log('DEBUG save_post_hjarts_navigation:' . print_r($_REQUEST, true));
+	// update_post_meta($post_id, 'navigation_menu', $_POST['meta']['navigation_menu']);
+});

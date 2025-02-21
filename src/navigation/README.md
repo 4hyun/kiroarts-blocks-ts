@@ -22,7 +22,7 @@ This block has been created with the `create-block-interactive-template` and sho
 
 ## Git
 
-### Submodules
+### Submodules(kiroart-blocks-ts)
 
 ## Navigation
 

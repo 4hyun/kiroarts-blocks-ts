@@ -47,41 +47,14 @@ export default function Edit({ attributes, setAttributes, ...props }) {
 
   const blockProps = useBlockProps()
   const [isUpdatingMenuRef, setIsUpdatingMenuRef] = useState(false)
-  const {
-    navigationMenus,
-    isResolvingNavigationMenus,
-    hasResolvedNavigationMenus,
-    canUserCreateNavigationMenus,
-    canSwitchNavigationMenu,
-    isNavigationMenuMissing,
-  } = useNavigationMenu(ref)
-  const showNavigationMenus = !!canSwitchNavigationMenu
-
-  // console.log({ navigationMenus })
-
-  const menuChoices = useMemo(() => {
-    return (
-      navigationMenus?.map(({ id, title, status }, index) => {
-        const label = buildMenuLabel(title?.rendered, index + 1, status)
-
-        return {
-          value: id,
-          label,
-          ariaLabel: sprintf(actionLabel, label),
-          disabled:
-            isUpdatingMenuRef ||
-            isResolvingNavigationMenus ||
-            !hasResolvedNavigationMenus,
-        }
-      }) || []
-    )
-  }, [
-    navigationMenus,
-    actionLabel,
-    isResolvingNavigationMenus,
-    hasResolvedNavigationMenus,
-    isUpdatingMenuRef,
-  ])
+  // const {
+  //   navigationMenus,
+  //   isResolvingNavigationMenus,
+  //   hasResolvedNavigationMenus,
+  //   canUserCreateNavigationMenus,
+  //   canSwitchNavigationMenu,
+  //   isNavigationMenuMissing,
+  // } = useNavigationMenu(ref)
 
   return (
     <nav {...blockProps}>
