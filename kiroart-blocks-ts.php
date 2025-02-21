@@ -43,27 +43,9 @@ function register_hjarts_navigation_cpt()
 		),
 		'public'        => true,
 		'show_in_rest'  => true, // Enables REST API support
-		'rest_controller_class' => 'WP_REST_Posts_Controller',
-		'supports'      => array('title', 'editor'),
+		'supports'      => array('title', 'editor', 'custom-fields'),
 	));
 	register_post_meta('hjarts_navigation', 'navigation_menu_id', array('type' => 'string', 'single' => true, 'show_in_rest' => true));
 	register_post_meta('hjarts_navigation', 'navigation_menu', array('type' => 'string', 'single' => true, 'show_in_rest' => true));
 }
 add_action('init', 'register_hjarts_navigation_cpt');
-
-// function save_hjarts_navigation_meta($post_id)
-// {
-// 	if (isset($_POST['meta']['navigation_menu'])) {
-// 		update_post_meta($post_id, 'navigation_menu', $_POST['meta']['navigation_menu']);
-// 	}
-// 	if (isset($_POST['meta']['navigation_menu_id'])) {
-// 		update_post_meta($post_id, 'navigation_menu_id', $_POST['meta']['navigation_menu_id']);
-// 	}
-// }
-// add_action('save_post_hjarts_navigation', 'save_hjarts_navigation_meta');
-
-add_action('save_post_hjarts_navigation', function ($post_id) {
-
-	error_log('DEBUG save_post_hjarts_navigation:' . print_r($_REQUEST, true));
-	// update_post_meta($post_id, 'navigation_menu', $_POST['meta']['navigation_menu']);
-});

@@ -60,31 +60,17 @@ const useNavigationDefaultMenuInit = (saveEntityRecord, editEntityRecord) => {
       if (canInit) {
         console.log("[DEBUG] [hjarts:navigation] can init default menu data.")
         const record = {
-          // id: NAVIGATION_DEFAULT_MENU_REF,
           title: navigationDefaultMenuTitle,
-          // meta: [
-          //   { meta_key: "navigation_menu", meta_value: menuDataStructured },
-          //   {
-          //     meta_key: "navigation_menu_id",
-          //     meta_value: NAVIGATION_DEFAULT_MENU_REF,
-          //   },
-          // ],
           meta: {
             navigation_menu: JSON.stringify(menuDataStructured),
             navigation_menu_id: NAVIGATION_DEFAULT_MENU_REF,
           },
         }
-        // TODO: save the menu data
-        saveEntityRecord("postType", "hjarts_navigation", record)
+        saveEntityRecord("postType", "hjarts_navigation", record, {
+          throwOnError: true,
+        })
           .then(async (response) => {
             console.log("[DEBUG] [hjarts:navigation] saveEntityRecord success.")
-            // saveEntityRecord("postType", "hjarts_navigation", response.id, {
-            //   status: "publish",
-            //   meta: {
-            //     navigation_menu: JSON.stringify(menuDataStructured),
-            //     navigation_menu_id: NAVIGATION_DEFAULT_MENU_REF,
-            //   },
-            // })
             setStatus(NAVIGATION_INIT_SUCCESS)
             setValue(response)
           })
