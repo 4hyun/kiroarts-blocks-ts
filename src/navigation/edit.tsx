@@ -1,16 +1,11 @@
 import { __, sprintf } from "@wordpress/i18n"
-import { useMemo, useState, useCallback, useEffect } from "@wordpress/element"
-import { useSelect, useDispatch } from "@wordpress/data"
-import {
-  useBlockProps,
-  store as blockEditorStore,
-} from "@wordpress/block-editor"
-import { useNavigationMenu } from "./hooks/use-navigation-menu"
-import { buildMenuLabel } from "./lib"
-
+import { useMemo, useState, useEffect } from "@wordpress/element"
+import { useBlockProps } from "@wordpress/block-editor"
 import { Navigation } from "./Navigation"
 import { NavigationContextProvider } from "./context"
 import { NavigationInspectorControls } from "./edit/NavigationInspectorControls"
+import { normalizeSchema } from "@/lib/menu/v1/utils"
+import defaultMenu from "../../data/default-menu.json"
 
 /**
  * The edit function describes the structure of your block in the context of the
@@ -25,9 +20,13 @@ import { NavigationInspectorControls } from "./edit/NavigationInspectorControls"
  * @return {Element} Element to render.
  */
 export default function Edit({ attributes, setAttributes, ...props }) {
+  const [menu, setMenuData] = useState(() =>
+    defaultMenu ? normalizeSchema(defaultMenu) : []
+  )
+  console.log({ defaultMenu })
   const createActionLabel = __("Create from '%s'")
   // This will be props for MenuInspectorControls once extrated to its own component
-  const ref = useMemo(
+  const blockRef = useMemo(
     () => attributes.ref || props.clientId,
     [attributes.ref, props.clientId]
   )
@@ -40,30 +39,22 @@ export default function Edit({ attributes, setAttributes, ...props }) {
   const actionLabel = navigationMenuSelector.actionLabel || createActionLabel
 
   useEffect(() => {
-    if (!attributes.ref && props.clientId) {
+    if (!blockRef && props.clientId) {
       setAttributes({ ref: props.clientId })
     }
-  }, [props.clientId, attributes.ref])
+  }, [props.clientId, blockRef])
 
   const blockProps = useBlockProps()
-  const [isUpdatingMenuRef, setIsUpdatingMenuRef] = useState(false)
-  // const {
-  //   navigationMenus,
-  //   isResolvingNavigationMenus,
-  //   hasResolvedNavigationMenus,
-  //   canUserCreateNavigationMenus,
-  //   canSwitchNavigationMenu,
-  //   isNavigationMenuMissing,
-  // } = useNavigationMenu(ref)
 
   return (
     <nav {...blockProps}>
       <NavigationContextProvider>
         <NavigationInspectorControls />
         <Navigation
-          clientId={ref}
+          clientId={blockRef}
           setAttributes={setAttributes}
           attributes={attributes}
+          menu={menu}
         ></Navigation>
       </NavigationContextProvider>
     </nav>

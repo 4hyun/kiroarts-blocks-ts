@@ -18,8 +18,7 @@ import { store as coreStore } from "@wordpress/core-data"
 import { menuDataStructured } from "../constants/menu-data"
 
 const NAVIGATION_DEFAULT_MENU_REF = "HJARTS_NAVIGATION_V1_DEFAULT"
-const navigationDefaultMenuTitle =
-  NAVIGATION_DEFAULT_MENU_REF.toLowerCase().replace(/_/g, " ")
+const navigationDefaultMenuTitle = NAVIGATION_DEFAULT_MENU_REF
 
 const NAVIGATION_INIT_PENDING = "NAVIGATION_INIT_PENDING"
 const NAVIGATION_INIT_IDLE = "NAVIGATION_INIT_IDLE"
@@ -57,30 +56,30 @@ const useNavigationDefaultMenuInit = (saveEntityRecord, editEntityRecord) => {
         NAVIGATION_DEFAULT_MENU_REF
       )
       const canInit = !menu
-      if (canInit) {
-        console.log("[DEBUG] [hjarts:navigation] can init default menu data.")
-        const record = {
-          title: navigationDefaultMenuTitle,
-          meta: {
-            navigation_menu: JSON.stringify(menuDataStructured),
-            navigation_menu_id: NAVIGATION_DEFAULT_MENU_REF,
-          },
-        }
-        saveEntityRecord("postType", "hjarts_navigation", record, {
-          throwOnError: true,
-        })
-          .then(async (response) => {
-            console.log("[DEBUG] [hjarts:navigation] saveEntityRecord success.")
-            setStatus(NAVIGATION_INIT_SUCCESS)
-            setValue(response)
-          })
-          .catch((err) => {
-            console.log("[DEBUG] [hjarts:navigation] saveEntityRecord error.")
-            setStatus(NAVIGATION_INIT_ERROR)
-            setError(err)
-            throw new Error("Unable to save new Navigation Menu")
-          })
-      }
+      // if (canInit) {
+      //   console.log("[DEBUG] [hjarts:navigation] can init default menu data.")
+      //   const record = {
+      //     title: navigationDefaultMenuTitle,
+      //     meta: {
+      //       navigation_menu: JSON.stringify(menuDataStructured),
+      //       navigation_menu_id: NAVIGATION_DEFAULT_MENU_REF,
+      //     },
+      //   }
+      //   saveEntityRecord("postType", "hjarts_navigation", record, {
+      //     throwOnError: true,
+      //   })
+      //     .then(async (response) => {
+      //       console.log("[DEBUG] [hjarts:navigation] saveEntityRecord success.")
+      //       setStatus(NAVIGATION_INIT_SUCCESS)
+      //       setValue(response)
+      //     })
+      //     .catch((err) => {
+      //       console.log("[DEBUG] [hjarts:navigation] saveEntityRecord error.")
+      //       setStatus(NAVIGATION_INIT_ERROR)
+      //       setError(err)
+      //       throw new Error("Unable to save new Navigation Menu")
+      //     })
+      // }
     },
     [status, value, error]
   )

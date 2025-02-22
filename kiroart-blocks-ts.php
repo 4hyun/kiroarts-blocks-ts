@@ -41,7 +41,7 @@ function register_hjarts_navigation_cpt()
 			'name'          => _x('HJArts Custom Navigations', 'hjarts custom navigation post type general name.'),
 			'singular_name' => _x('HJArts Custom Navigation', 'hjarts custom navigation post type singular name. '),
 		),
-		'public'        => true,
+		'public'        => false,
 		'show_in_rest'  => true, // Enables REST API support
 		'supports'      => array('title', 'editor', 'custom-fields'),
 	));
@@ -49,3 +49,63 @@ function register_hjarts_navigation_cpt()
 	register_post_meta('hjarts_navigation', 'navigation_menu', array('type' => 'string', 'single' => true, 'show_in_rest' => true));
 }
 add_action('init', 'register_hjarts_navigation_cpt');
+
+// Function to insert default hjarts_navigation post with JSON data during activation
+function insert_default_hjarts_navigation()
+{
+	// Get the JSON file path
+	$json_file_path = plugin_dir_path(__FILE__) . 'data/default-menu.json';
+
+	// Check if file exists before reading
+	if (!file_exists($json_file_path)) {
+		error_log("[ERROR] [hjarts:plugin/init] Required default menu JSON file not found: $json_file_path");
+		deactivate_plugins(plugin_basename(__FILE__));
+		wp_die("[ERROR] [hjarts:plugin/init] Plugin activation failed: required default menu JSON file not found.");
+	}
+
+	// Read JSON file content
+	$json_data = file_get_contents($json_file_path);
+
+	// Decode JSON into PHP array
+	$menu_data = json_decode($json_data, true); // true -> associative array
+
+	if ($menu_data === null) {
+		error_log("[ERROR] [hjarts:plugin/init] JSON decoding failed for default navigation menu.");
+		deactivate_plugins(plugin_basename(__FILE__));
+		wp_die("[ERROR] [hjarts:plugin/init] Plugin activation failed: JSON decoding error.");
+	}
+
+	$post_title = 'HJARTS_NAVIGATION_V1_DEFAULT';
+	$post_type = 'hjarts_navigation';
+
+	// Search for existing post by title
+	$existing_posts = get_posts(array(
+		'title'      => $post_title,
+		'post_type'  => $post_type,
+		'post_status' => 'any',
+		'numberposts' => 1, // Only check for existence
+	));
+
+	if (empty($existing_posts)) { // If no post exists with this title
+		// Insert new post
+		$post_id = wp_insert_post(array(
+			'post_title'   => $post_title,
+			'post_status'  => 'publish',
+			'post_type'    => $post_type,
+			'post_content' => '', // Leave empty if not needed
+		));
+
+		if (!is_wp_error($post_id)) {
+			// Store directly as an array (not JSON string)
+			update_post_meta($post_id, 'navigation_menu', $menu_data);
+			update_post_meta($post_id, 'navigation_menu_id', $post_id);
+		} else {
+			error_log("[ERROR] [hjarts:plugin/init] Something went wrong internally during setup. Plugin will not activate.");
+			deactivate_plugins(plugin_basename(__FILE__));
+			wp_die("[ERROR] [hjarts:plugin/init] Plugin activation failed: default menu post insertion error.");
+		}
+	}
+}
+
+// Register activation hook (Runs only once when the plugin is activated)
+register_activation_hook(__FILE__, 'insert_default_hjarts_navigation');
